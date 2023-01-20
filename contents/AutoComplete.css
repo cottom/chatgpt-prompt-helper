@@ -1,5 +1,8 @@
 #chatgpt-prompt-helper-container {
   position: relative;
+  width: 1px;
+  height: 1px;
+  background: #ffffff;
 }
 
 #chatgpt-prompt-helper-content {
@@ -10,13 +13,15 @@
 
 #chatgpt-prompt-helper-panel {
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   background: #ffffff;
   border-radius: 8px;
   border: solid 1px #dddddd;
   box-shadow: 1px 1px #ddd;
   max-height: 300px;
   width: 600px;
+  bottom: 51px;
+  left: 2px;
 }
 
 #chatgpt-prompt-helper-panel-scroll {
@@ -76,6 +81,7 @@
 }
 
 #chatgpt-prompt-helper-panel-tips {
+    display: none;
     color: #058591;
     font-size: 12px;
     position: absolute;

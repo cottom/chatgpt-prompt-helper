@@ -3,11 +3,7 @@ import cssText from 'data-text:~/contents/AutoComplete.css'
 import kebabCase from 'lodash/kebabCase'
 import partition from 'lodash/partition'
 import snakeCase from 'lodash/snakeCase'
-import type {
-  PlasmoContentScript,
-  PlasmoGetOverlayAnchor,
-  PlasmoWatchOverlayAnchor
-} from 'plasmo'
+import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLatest } from 'react-use'
 
@@ -31,27 +27,21 @@ const sleep = (time: number) => new Promise((r) => setTimeout(r, time))
 
 const getTextArea = async () => {
   try {
-    const textInputContainer =
-      document.querySelector('textarea').parentElement
+    const textInputContainer = document.querySelector('textarea').parentElement
     if (textInputContainer !== null) {
       return textInputContainer
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(error)
+  }
   sleep(1000)
   return getTextArea()
 }
 
-export const getOverlayAnchor: PlasmoGetOverlayAnchor = getTextArea
-
-// @ts-ignore
-export const watchOverlayAnchor: PlasmoWatchOverlayAnchor = (
-    updatePosition
-  ) => {
-
-    setInterval(() => {
-      updatePosition()
-    }, 4000)
-  }
+export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
+  const area = await getTextArea()
+  return area
+}
 
 const ITEM_PREFIX = `chatgpt-prompt-helper-item-_`
 const TOP_ANCHOR = 'chatgpt-prompt-helper-panel-scroll-top-anchor'
@@ -72,12 +62,21 @@ function createSelection(
   }
 }
 
+const safeMath = (act: string, inputText: string) => {
+  try {
+    return act?.match(new RegExp(inputText.slice(1), 'ig'))
+  } catch (error) {
+    return false
+  }
+}
+
 const AutoComplete = () => {
   const containerRef = useRef<HTMLDivElement>()
   const [inputText, setInputText] = useState<string>()
   const [activeIndex, setActiveIndex] = useState(-1)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [panelVisible, setPanelVisible] = useState(false)
+  const [textareaHeight, setTextareaHeight] = useState(40)
   const [promots, _un, { setStoreValue, setRenderValue }] = useStorage<Row[]>(
     {
       key: PROMOT_KEY,
@@ -96,11 +95,12 @@ const AutoComplete = () => {
   ] = useStorage<string[]>({ key: HISTORY_KEY, area: 'local' }, [])
 
   const uiPromots = useMemo(() => {
+    if (!panelVisible) {
+      return promots
+    }
     const [hitItems, resetItems] = partition(
       promots,
-      (item: Row) =>
-        inputText?.length > 1 &&
-        item.act?.match(new RegExp(inputText.slice(1), 'ig'))
+      (item: Row) => inputText?.length > 1 && safeMath(item.act, inputText)
     ) as Row[][]
 
     const [historyItem, nonHistoryItem] = partition(
@@ -109,17 +109,13 @@ const AutoComplete = () => {
     )
 
     return [...hitItems, ...historyItem, ...nonHistoryItem]
-  }, [promots, inputText, history])
+  }, [promots, inputText, history, panelVisible])
 
   const latestPanelVisible = useLatest(panelVisible)
   const lastPromots = useLatest(uiPromots)
   const lastActiveIndex = useLatest(activeIndex)
 
   const lastActiveItem = lastPromots.current?.[lastActiveIndex?.current || 0]
-
-  const lastHoverItem = lastPromots.current?.[hoverIndex || 0]
-
-  const explainActiveItem = lastHoverItem || lastActiveItem
 
   const targetUrl = useMemo(() => {
     const prompt = lastActiveItem?.prompt
@@ -153,7 +149,6 @@ const AutoComplete = () => {
     if (activeItemText && textArea) {
       textArea.value = activeItemText
       textArea.style.height = textArea.scrollHeight + 'px'
-      textArea.dispatchEvent(new Event('input', { bubbles: true }))
       const replaceIndex = activeItemText.indexOf(REPLACE_THIS)
       if (replaceIndex !== -1) {
         createSelection(
@@ -162,6 +157,7 @@ const AutoComplete = () => {
           replaceIndex + REPLACE_THIS.length
         )
       }
+      textArea.dispatchEvent(new Event('input', { bubbles: true }))
       textArea.focus()
       const newHistory = [item.act, ...(history || [])]
       setHistoryStoreValue(newHistory)
@@ -189,6 +185,8 @@ const AutoComplete = () => {
       // @ts-ignore
       const value = e.target.value
       setInputText(value)
+      // @ts-ignore
+      //   setTextareaHeight(e.target.scrollHeight)
     })
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
@@ -238,60 +236,59 @@ const AutoComplete = () => {
     }
   }, [inputText, setPanelVisible])
 
-  const childrenEl =
-    panelVisible && promots.length ? (
-      <>
-        <div id="chatgpt-prompt-helper-panel">
-          <div id="chatgpt-prompt-helper-content">
-            <div id="chatgpt-prompt-helper-panel-scroll">
-              <div id={TOP_ANCHOR} />
-              {uiPromots.map((item, index) => (
-                <div
-                  key={item.act}
-                  onMouseEnter={() => setHoverIndex(index)}
-                  onClick={() => {
-                    selectItem(item)
-                  }}
-                  className={`chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
-                    item.act
-                  )} ${
-                    hoverIndex === index
-                      ? 'chatgpt-prompt-helper-item-hover'
-                      : ''
-                  } ${
-                    activeIndex === index
-                      ? 'chatgpt-prompt-helper-item-active'
-                      : ''
-                  }`}>
-                  <div className="chatgpt-prompt-helper-item-act">
-                    {item.act}
-                  </div>
-                  <div className="chatgpt-prompt-helper-item-prompt">
-                    {item.prompt}
-                  </div>
+  const childrenEl = (
+    <>
+      <div
+        id="chatgpt-prompt-helper-panel"
+        style={{ display: panelVisible && promots.length ? 'block' : 'none' }}>
+        <div id="chatgpt-prompt-helper-content">
+          <div id="chatgpt-prompt-helper-panel-scroll">
+            <div id={TOP_ANCHOR} />
+            {uiPromots.map((item, index) => (
+              <div
+                key={item.act}
+                onMouseEnter={() => setHoverIndex(index)}
+                onClick={() => {
+                  selectItem(item)
+                }}
+                className={`chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
+                  item.act
+                )} ${
+                  hoverIndex === index ? 'chatgpt-prompt-helper-item-hover' : ''
+                } ${
+                  activeIndex === index
+                    ? 'chatgpt-prompt-helper-item-active'
+                    : ''
+                }`}>
+                <div className="chatgpt-prompt-helper-item-act">{item.act}</div>
+                <div className="chatgpt-prompt-helper-item-prompt">
+                  {item.prompt}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-          {lastActiveItem?.prompt && (
-            <div id="chatgpt-prompt-helper-panel-explain">
-              {lastActiveItem?.prompt}
-              <a target="_blank" href={targetUrl}>
-                <img
-                  alt="link"
-                  src={linkIcon}
-                  className="chatgpt-prompt-helper-panel-explain-link"
-                />
-              </a>
-            </div>
-          )}
         </div>
-      </>
-    ) : null
+        {lastActiveItem?.prompt && (
+          <div id="chatgpt-prompt-helper-panel-explain">
+            {lastActiveItem?.prompt}
+            <a target="_blank" href={targetUrl}>
+              <img
+                alt="link"
+                src={linkIcon}
+                className="chatgpt-prompt-helper-panel-explain-link"
+              />
+            </a>
+          </div>
+        )}
+      </div>
+    </>
+  )
 
   return (
     <div ref={containerRef} id="chatgpt-prompt-helper-container">
-      <div id="chatgpt-prompt-helper-panel-tips">
+      <div
+        id="chatgpt-prompt-helper-panel-tips"
+        style={{ bottom: `-${30 + textareaHeight}px` }}>
         Try type start with <span>/</span>. Enhanced by{' '}
         <a
           href="https://github.com/cottom/chatgpt-prompt-extension"
