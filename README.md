@@ -1,4 +1,14 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+# ChatGPT Prompt extension
+
+![Icon](./assets/icon.png)
+
+This Browser extension is going to prower chatGPT with awesome chatgpt prompt helper. Data powered by [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts).
+
+> The ChatGPT model is a large language model trained by OpenAI that is capable of generating human-like text. By providing it with a prompt, it can generate responses that continue the conversation or expand on the given prompt.
+
+## Feature
+
+![Icon](./images/feature.png)
 
 ## Getting Started
 
