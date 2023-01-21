@@ -81,12 +81,11 @@
 }
 
 #chatgpt-prompt-helper-panel-tips {
-    display: none;
     color: #058591;
     font-size: 12px;
     position: absolute;
     white-space: nowrap;
-    bottom: -70px;
+    bottom: -14px;
 }
 
 #chatgpt-prompt-helper-panel-tips span {

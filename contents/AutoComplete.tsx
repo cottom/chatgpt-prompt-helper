@@ -286,9 +286,7 @@ const AutoComplete = () => {
 
   return (
     <div ref={containerRef} id="chatgpt-prompt-helper-container">
-      <div
-        id="chatgpt-prompt-helper-panel-tips"
-        style={{ bottom: `-${30 + textareaHeight}px` }}>
+      <div id="chatgpt-prompt-helper-panel-tips">
         Try type start with <span>/</span>. Enhanced by{' '}
         <a
           href="https://github.com/cottom/chatgpt-prompt-extension"
