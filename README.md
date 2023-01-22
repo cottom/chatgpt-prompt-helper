@@ -1,4 +1,4 @@
-# ChatGPT Prompt extension
+# ChatGPT Prompt helper
 
 ![Icon](./assets/icon.png)
 
