@@ -33,9 +33,7 @@
       "https://chat.openai.com/*"
     ],
     "permissions": [
-      "scripting",
-      "storage",
-      "webRequest"
+      "storage"
     ]
   }
 }
