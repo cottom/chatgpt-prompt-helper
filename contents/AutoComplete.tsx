@@ -143,7 +143,6 @@ const AutoComplete = () => {
   }
 
   const selectItem = (item: Row) => {
-    setPanelVisible(false)
     const activeItemText = item?.prompt
     const textArea = document.querySelector('textarea')
     if (activeItemText && textArea) {
@@ -163,6 +162,7 @@ const AutoComplete = () => {
       setHistoryStoreValue(newHistory)
       setHistoryRenderValue(newHistory)
     }
+    setPanelVisible(false)
   }
 
   useEffect(() => {
