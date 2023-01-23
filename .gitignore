@@ -40,3 +40,5 @@ keys.json
 
 # typescript
 .tsbuildinfo
+key.json
+SUBMIT_KEYS.json
