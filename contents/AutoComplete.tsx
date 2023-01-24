@@ -32,9 +32,9 @@ const getTextArea = async () => {
       return textInputContainer
     }
   } catch (error) {
-    console.error(error)
+    // console.error(error)
   }
-  sleep(1000)
+  await sleep(1000)
   return getTextArea()
 }
 
