@@ -102,3 +102,7 @@
 .chatgpt-prompt-helper-item-act {
   color: #222222;
 }
+
+.chatgpt-prompt-helper-item-tooltip {
+  width: 400px;
+}

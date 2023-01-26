@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {
@@ -18,8 +18,10 @@
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
     "plasmo": "0.62.2",
+    "rc-tooltip": "^5.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-tooltip": "^5.7.0",
     "react-use": "^17.4.0"
   },
   "devDependencies": {

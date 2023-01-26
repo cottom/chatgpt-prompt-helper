@@ -1,16 +1,18 @@
 import linkIcon from 'data-base64:~assets/link.png'
+import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~/contents/AutoComplete.css'
 import kebabCase from 'lodash/kebabCase'
 import partition from 'lodash/partition'
 import snakeCase from 'lodash/snakeCase'
 import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
+import Tooltip from 'rc-tooltip'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLatest } from 'react-use'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
 import { HISTORY_KEY, PROMOT_KEY, Row, fetchPromotWithRetry } from '../request'
-import { sleep } from '../utils';
+import { sleep } from '../utils'
 
 export type AutoCompleteProps = {}
 
@@ -20,7 +22,7 @@ export const config: PlasmoContentScript = {
 
 export const getStyle = () => {
   const style = document.createElement('style')
-  style.textContent = cssText
+  style.textContent = cssText + '\n' + reactToolCssText
   return style
 }
 
@@ -245,26 +247,35 @@ const AutoComplete = () => {
           <div id="chatgpt-prompt-helper-panel-scroll">
             <div id={TOP_ANCHOR} />
             {uiPromots.map((item, index) => (
-              <div
+              <Tooltip
                 key={item.act}
-                onMouseEnter={() => setHoverIndex(index)}
-                onClick={() => {
-                  selectItem(item)
-                }}
-                className={`chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
-                  item.act
-                )} ${
-                  hoverIndex === index ? 'chatgpt-prompt-helper-item-hover' : ''
-                } ${
-                  activeIndex === index
-                    ? 'chatgpt-prompt-helper-item-active'
-                    : ''
-                }`}>
-                <div className="chatgpt-prompt-helper-item-act">{item.act}</div>
-                <div className="chatgpt-prompt-helper-item-prompt">
-                  {item.prompt}
+                placement="right"
+                overlay={<div className='chatgpt-prompt-helper-item-tooltip'> {item.prompt}</div>}
+                getTooltipContainer={() => containerRef.current}>
+                <div
+                  onMouseEnter={() => setHoverIndex(index)}
+                  onClick={() => {
+                    selectItem(item)
+                  }}
+                  className={`chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
+                    item.act
+                  )} ${
+                    hoverIndex === index
+                      ? 'chatgpt-prompt-helper-item-hover'
+                      : ''
+                  } ${
+                    activeIndex === index
+                      ? 'chatgpt-prompt-helper-item-active'
+                      : ''
+                  }`}>
+                  <div className="chatgpt-prompt-helper-item-act">
+                    {item.act}
+                  </div>
+                  <div className="chatgpt-prompt-helper-item-prompt">
+                    {item.prompt}
+                  </div>
                 </div>
-              </div>
+              </Tooltip>
             ))}
           </div>
         </div>
