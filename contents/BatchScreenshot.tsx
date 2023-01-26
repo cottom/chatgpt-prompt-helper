@@ -90,7 +90,8 @@ const BatchScreenshot = () => {
       .map((item) => {
         const returned = item.cloneNode(true) as HTMLDivElement
         returned.style.paddingLeft = '20px'
-        returned.classList.add(...item.parentElement.classList)
+        returned.classList.add('bg-white', ...item.parentElement.classList)
+
         return returned
       })
 
