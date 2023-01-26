@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {
@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^0.14.0",
+    "@ungap/structured-clone": "^1.0.1",
     "axios": "^1.2.3",
+    "downloadjs": "^1.4.7",
+    "html-to-image": "^1.11.4",
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
     "plasmo": "0.62.2",

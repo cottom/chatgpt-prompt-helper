@@ -7,7 +7,10 @@ specifiers:
   '@types/node': 18.11.9
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
+  '@ungap/structured-clone': ^1.0.1
   axios: ^1.2.3
+  downloadjs: ^1.4.7
+  html-to-image: ^1.11.4
   lodash: ^4.17.21
   lunr: ^2.3.9
   plasmo: 0.62.2
@@ -19,7 +22,10 @@ specifiers:
 
 dependencies:
   '@plasmohq/storage': 0.14.0_react@18.2.0
+  '@ungap/structured-clone': 1.0.1
   axios: 1.2.3
+  downloadjs: 1.4.7
+  html-to-image: 1.11.4
   lodash: 4.17.21
   lunr: 2.3.9
   plasmo: 0.62.2_pvnihi4muhoy7kenlmiyxwzuqy
@@ -2154,6 +2160,10 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
+  /@ungap/structured-clone/1.0.1:
+    resolution: {integrity: sha512-zKVyTt6rELvPXYwcVPTJcPFtY0AckN5A7xWuc7owBqR0FdtuDYhE9MZZUi6IY1kZUQFSXV1B3UOOIyLkVHYd2w==}
+    dev: false
+
   /@vue/compiler-core/3.2.45:
     resolution: {integrity: sha512-rcMj7H+PYe5wBV3iYeUgbCglC+pbpN8hBLTJvRiK2eKQiWqu+fG9F+8sW99JdL4LQi7Re178UOxn09puSXvn4A==}
     dependencies:
@@ -2878,6 +2888,10 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /downloadjs/1.4.7:
+    resolution: {integrity: sha512-LN1gO7+u9xjU5oEScGFKvXhYf7Y/empUIIEAGBs1LzUq/rg5duiDrkuH5A2lQGd5jfMOb9X9usDa2oVXwJ0U/Q==}
+    dev: false
+
   /eastasianwidth/0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: false
@@ -3437,6 +3451,10 @@ packages:
     dependencies:
       capital-case: 1.0.4
       tslib: 2.4.1
+    dev: false
+
+  /html-to-image/1.11.4:
+    resolution: {integrity: sha512-I6jeGpjSI/pea+p/8q6HAWPxptZkEYaZ40ZLnpCHuhCJJnUHQ/YzMEQMNY/KMdPZJ4+GJIwo9dnJy76eW9p9cg==}
     dev: false
 
   /htmlnano/2.0.3_svgo@2.8.0:

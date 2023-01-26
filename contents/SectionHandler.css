@@ -1,0 +1,37 @@
+.chatgpt-prompt-extension-section-handler-container {
+  position: absolute;
+  right: 10px;
+  top: -50px;
+}
+
+.chatgpt-prompt-extension-section-handler-container a {
+  margin-right: 10px;
+}
+
+.chatgpt-prompt-extension-section-handler-screenshot {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.chatgpt-prompt-extension-section-check-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+#chatgpt-prompt-extension-batch-screenshot {
+  position: fixed;
+  bottom: 30px;
+  right: 10px;
+}
+
+#chatgpt-prompt-extension-batch-screenshot img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+#chatgpt-prompt-extension-batch-screenshot a {
+    margin-right: 10px;
+}

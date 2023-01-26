@@ -10,6 +10,7 @@ import { useLatest } from 'react-use'
 import { useStorage } from '@plasmohq/storage/hook'
 
 import { HISTORY_KEY, PROMOT_KEY, Row, fetchPromotWithRetry } from '../request'
+import { sleep } from '../utils';
 
 export type AutoCompleteProps = {}
 
@@ -23,19 +24,21 @@ export const getStyle = () => {
   return style
 }
 
-const sleep = (time: number) => new Promise((r) => setTimeout(r, time))
-
 const getTextArea = async () => {
   try {
-    const textInputContainer = document.querySelector('textarea').parentElement
-    if (textInputContainer !== null) {
-      return textInputContainer
+    const textArea = document.querySelector('textarea')
+    if (textArea) {
+      if (!textArea.placeholder.trim()) {
+        textArea.placeholder =
+          'Try type / at first and seem some helpful prompts. Powered by ChatGPT prompt helper'
+      }
+      return textArea.parentElement
     }
   } catch (error) {
     // console.error(error)
   }
   await sleep(1000)
-  return getTextArea()
+  return await getTextArea()
 }
 
 export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
@@ -76,7 +79,6 @@ const AutoComplete = () => {
   const [activeIndex, setActiveIndex] = useState(-1)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [panelVisible, setPanelVisible] = useState(false)
-  const [textareaHeight, setTextareaHeight] = useState(40)
   const [promots, _un, { setStoreValue, setRenderValue }] = useStorage<Row[]>(
     {
       key: PROMOT_KEY,
@@ -185,8 +187,6 @@ const AutoComplete = () => {
       // @ts-ignore
       const value = e.target.value
       setInputText(value)
-      // @ts-ignore
-      //   setTextareaHeight(e.target.scrollHeight)
     })
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
@@ -286,18 +286,6 @@ const AutoComplete = () => {
 
   return (
     <div ref={containerRef} id="chatgpt-prompt-helper-container">
-      <div id="chatgpt-prompt-helper-panel-tips">
-        Try type start with <span>/</span>. Enhanced by{' '}
-        <a
-          href="https://github.com/cottom/chatgpt-prompt-extension"
-          target="_blank">
-          chatGPT prompt helper
-        </a>{' '}
-        & data powered by{' '}
-        <a href="https://prompts.chat/" target="_blank">
-          prompts.chat
-        </a>
-      </div>
       {childrenEl}
     </div>
   )
