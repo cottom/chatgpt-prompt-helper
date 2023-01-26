@@ -10,7 +10,7 @@ import type {
   PlasmoGetShadowHostId
 } from 'plasmo'
 import type { PlasmoRender } from 'plasmo'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { useStorage } from '@plasmohq/storage/hook'

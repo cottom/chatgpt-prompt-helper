@@ -189,6 +189,13 @@ const AutoComplete = () => {
       // @ts-ignore
       const value = e.target.value
       setInputText(value)
+      if (value?.startsWith('/')) {
+        setActiveIndex(0)
+        containerRef.current?.querySelector(`#${TOP_ANCHOR}`)?.scrollIntoView()
+        setPanelVisible(true)
+      } else {
+        setPanelVisible(false)
+      }
     })
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
@@ -219,24 +226,24 @@ const AutoComplete = () => {
           setPanelVisible(false)
         } else if (e.key === 'Enter') {
           preventKeyboardEvent(e)
-          selectItem(lastPromots.current?.[lastActiveIndex?.current || 0])
+          setTimeout(
+            () =>
+              selectItem(lastPromots.current?.[lastActiveIndex?.current || 0]),
+            20
+          )
         }
       }
     }
 
     textarea?.addEventListener('keydown', (e) => handleKeyboardEvennt(e))
     document.addEventListener('keydown', (e) => handleKeyboardEvennt(e))
-  }, [setInputText, lastPromots, latestPanelVisible, lastActiveIndex])
-
-  useEffect(() => {
-    if (inputText?.startsWith('/')) {
-      setPanelVisible(true)
-      setActiveIndex(0)
-      containerRef.current?.querySelector(`#${TOP_ANCHOR}`)?.scrollIntoView()
-    } else {
-      setPanelVisible(false)
-    }
-  }, [inputText, setPanelVisible])
+  }, [
+    setInputText,
+    setPanelVisible,
+    lastPromots,
+    latestPanelVisible,
+    lastActiveIndex
+  ])
 
   const childrenEl = (
     <>
@@ -248,9 +255,14 @@ const AutoComplete = () => {
             <div id={TOP_ANCHOR} />
             {uiPromots.map((item, index) => (
               <Tooltip
-                key={item.act}
+                key={item.act + index.toString()}
                 placement="right"
-                overlay={<div className='chatgpt-prompt-helper-item-tooltip'> {item.prompt}</div>}
+                overlay={
+                  <div className="chatgpt-prompt-helper-item-tooltip">
+                    {' '}
+                    {item.prompt}
+                  </div>
+                }
                 getTooltipContainer={() => containerRef.current}>
                 <div
                   onMouseEnter={() => setHoverIndex(index)}

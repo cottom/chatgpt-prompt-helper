@@ -1,5 +1,5 @@
-import axios from "axios"
-import once from "lodash/once"
+import axios from 'axios'
+import once from 'lodash/once'
 
 const a = axios.create()
 
@@ -21,12 +21,38 @@ export type Row = {
 }
 
 const DATA_SET_URL =
-  "https://datasets-server.huggingface.co/first-rows?dataset=fka%2Fawesome-chatgpt-prompts&config=fka--awesome-chatgpt-prompts&split=train"
+  'https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv'
+
+function parseCSVLine(line: string) {
+  let values = []
+  let currentValue = ''
+  let inQuotes = false
+  for (let i = 0; i < line.length; i++) {
+    let char = line[i]
+    if (char === ',' && !inQuotes) {
+      values.push(currentValue)
+      currentValue = ''
+    } else if (char === '"') {
+      inQuotes = !inQuotes
+    } else {
+      currentValue += char
+    }
+  }
+  values.push(currentValue)
+  return values
+}
 
 export const fetchPromots = async () => {
-  return (await a.get<DataSet>(DATA_SET_URL))?.data?.rows?.map(
-    (item) => item.row
-  )
+  return (await a.get<string>(DATA_SET_URL))?.data
+    ?.split('\n')
+    .slice(1)
+    .map((item) => item.trim())
+    .filter((item) => Boolean(item))
+    .map((item) => parseCSVLine(item))
+    .map(([act, prompt], index) => ({
+      act: act?.replaceAll('"', ''),
+      prompt: prompt?.replace('"', '')
+    })).reverse()
 }
 
 export const retrify =
@@ -42,8 +68,8 @@ export const retrify =
     }
   }
 
-export const PROMOT_KEY = "PROMOT_KEY"
+export const PROMOT_KEY = 'PROMOT_KEY'
 
-export const HISTORY_KEY = "HISTORY_KEY"
+export const HISTORY_KEY = 'HISTORY_KEY'
 
 export const fetchPromotWithRetry = once(retrify(fetchPromots, 3))
