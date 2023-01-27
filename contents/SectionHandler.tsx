@@ -16,10 +16,10 @@ import { createRoot } from 'react-dom/client'
 import { useStorage } from '@plasmohq/storage/hook'
 
 import {
+  ID_TOKEN,
   getScreenshotSelectedId,
   getScreenshotVisibleId,
-  sleep,
-  ID_TOKEN,
+  sleep
 } from '../utils'
 
 export const getStyle = () => {
@@ -32,9 +32,8 @@ export const config: PlasmoContentScript = {
   matches: ['https://chat.openai.com/*']
 }
 
-
 const getSections = async () => {
-  const list = document.querySelectorAll('.w-full .border-b')
+  const list = document.querySelectorAll('main .w-full .border-b')
   if (list?.length) {
     return Array.from(list).map((item, index) => {
       if (item.firstChild) {
@@ -43,6 +42,7 @@ const getSections = async () => {
           index.toString()
         )
         ;(item.firstChild as HTMLDivElement).classList.add(
+          ID_TOKEN,
           `${ID_TOKEN}_${index}`
         )
       }

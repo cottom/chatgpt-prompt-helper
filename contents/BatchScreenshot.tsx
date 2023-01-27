@@ -1,6 +1,6 @@
-import structuredClone from '@ungap/structured-clone'
 import eraseIcon from 'data-base64:~assets/broom.png'
 import cancelIcon from 'data-base64:~assets/cancel.png'
+import batchDownloadCloudIcon from 'data-base64:~assets/download-from-cloud.png'
 import batchDownloadIcon from 'data-base64:~assets/downloads.png'
 import batchScreenshotIcon from 'data-base64:~assets/screenshotBatch.png'
 import cssText from 'data-text:~/contents/SectionHandler.css'
@@ -73,12 +73,14 @@ const BatchScreenshot = () => {
     { setRenderValue: setEnableRenderValue, setStoreValue: setEnableStoreValue }
   ] = useStorage<boolean>({ key: getScreenshotVisibleId(), area: 'local' })
 
-  const onDownload = () => {
-    if (!selected?.length) {
+  const onDownload = (innerSelected: number[] = selected) => {
+    if (!innerSelected?.length) {
       return
     }
 
-    const selectDoms = Array.from(selected)
+    console.log(innerSelected)
+
+    const selectDoms = Array.from(innerSelected)
       .sort((a, b) => {
         if (a === b) {
           return 0
@@ -112,6 +114,8 @@ const BatchScreenshot = () => {
     }).then((dataUrl) => {
       download(dataUrl, `section_batch.png`)
       placeholder.remove()
+      setEnableRenderValue(false)
+      setEnableStoreValue(false)
     })
   }
 
@@ -119,19 +123,31 @@ const BatchScreenshot = () => {
     setSelectedStoreValue([])
   }
 
+  const onPageDownload = () => {
+    const nodes = document.querySelectorAll(`.${ID_TOKEN}`)
+    if (nodes?.length) {
+      onDownload(Array.from(nodes).map((_n, index) => index))
+    }
+  }
+
   return (
     <div id="chatgpt-prompt-extension-batch-screenshot">
       {!enable ? (
-        <a
-          onClick={() => {
-            setEnableRenderValue(true)
-            setEnableStoreValue(true)
-          }}>
-          <img src={batchScreenshotIcon} alt="batch screenshot" />
-        </a>
+        <>
+          <a onClick={onPageDownload}>
+            <img src={batchDownloadCloudIcon} alt="batch download icon" />
+          </a>
+          <a
+            onClick={() => {
+              setEnableRenderValue(true)
+              setEnableStoreValue(true)
+            }}>
+            <img src={batchScreenshotIcon} alt="batch screenshot" />
+          </a>
+        </>
       ) : (
         <>
-          <a onClick={onDownload}>
+          <a onClick={() => onDownload()}>
             <img src={batchDownloadIcon} alt="batch download" />
           </a>
           <a onClick={onErase}>

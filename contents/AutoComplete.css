@@ -30,6 +30,7 @@
 .chatgpt-prompt-helper-item-container {
   padding: 2px 12px;
   cursor: pointer;
+  border-bottom: solid 1px #eeeeee;
 }
 
 .chatgpt-prompt-helper-item-act {

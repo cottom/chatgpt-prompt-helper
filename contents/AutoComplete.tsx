@@ -250,7 +250,7 @@ const AutoComplete = () => {
       <div
         id="chatgpt-prompt-helper-panel"
         style={{ display: panelVisible && promots.length ? 'block' : 'none' }}>
-        <div id="chatgpt-prompt-helper-content">
+        <div id="chatgpt-prompt-helper-content" className='ring-1'>
           <div id="chatgpt-prompt-helper-panel-scroll">
             <div id={TOP_ANCHOR} />
             {uiPromots.map((item, index) => (
@@ -269,7 +269,7 @@ const AutoComplete = () => {
                   onClick={() => {
                     selectItem(item)
                   }}
-                  className={`chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
+                  className={`border-b chatgpt-prompt-helper-item-container ${ITEM_PREFIX}${snakeCase(
                     item.act
                   )} ${
                     hoverIndex === index
