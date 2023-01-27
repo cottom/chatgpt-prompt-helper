@@ -33,7 +33,7 @@ export const config: PlasmoContentScript = {
 }
 
 const getSections = async () => {
-  const list = document.querySelectorAll('main .w-full .border-b')
+  const list = document.querySelectorAll('main .w-full.border-b')
   if (list?.length) {
     return Array.from(list).map((item, index) => {
       if (item.firstChild) {
@@ -55,6 +55,7 @@ const getSections = async () => {
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
   const area = await getSections()
+  console.log(area)
   return area
 }
 
