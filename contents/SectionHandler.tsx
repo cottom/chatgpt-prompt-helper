@@ -55,7 +55,6 @@ const getSections = async () => {
 
 export const getInlineAnchorList: PlasmoGetInlineAnchorList = async () => {
   const area = await getSections()
-  console.log(area)
   return area
 }
 
