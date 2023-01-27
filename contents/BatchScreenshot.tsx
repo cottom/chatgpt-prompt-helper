@@ -14,7 +14,8 @@ import {
   ID_TOKEN,
   getScreenshotSelectedId,
   getScreenshotVisibleId,
-  sleep
+  sleep,
+  SECTION_ITEM_SELECTOR
 } from '../utils'
 
 export const getStyle = () => {
@@ -27,22 +28,10 @@ export const config: PlasmoContentScript = {
   matches: ['https://chat.openai.com/*']
 }
 
-const getBackgroundColor = (el: Element) => {
-  const color = window
-    .getComputedStyle(el, null)
-    .getPropertyValue('background-color')
-
-  if (color === 'rgba(0, 0, 0, 0)') {
-    return null
-  }
-
-  return color
-}
-
 const getContainer = async () => {
   try {
     const el =
-      document.querySelector('.w-full .border-b')?.parentElement?.parentElement
+      document.querySelector(SECTION_ITEM_SELECTOR)?.parentElement?.parentElement
     if (el) {
       return el
     }

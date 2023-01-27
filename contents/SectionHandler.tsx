@@ -7,7 +7,6 @@ import { toPng } from 'html-to-image'
 import type {
   PlasmoContentScript,
   PlasmoGetInlineAnchorList,
-  PlasmoGetShadowHostId
 } from 'plasmo'
 import type { PlasmoRender } from 'plasmo'
 import React from 'react'
@@ -19,7 +18,8 @@ import {
   ID_TOKEN,
   getScreenshotSelectedId,
   getScreenshotVisibleId,
-  sleep
+  sleep,
+  SECTION_ITEM_SELECTOR,
 } from '../utils'
 
 export const getStyle = () => {
@@ -33,7 +33,7 @@ export const config: PlasmoContentScript = {
 }
 
 const getSections = async () => {
-  const list = document.querySelectorAll('main .w-full.border-b')
+  const list = document.querySelectorAll(SECTION_ITEM_SELECTOR)
   if (list?.length) {
     return Array.from(list).map((item, index) => {
       if (item.firstChild) {
