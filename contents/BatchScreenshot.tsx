@@ -94,6 +94,7 @@ const BatchScreenshot = () => {
 
     placeholder.style.width = '80%'
     placeholder.style.height = '2px'
+    placeholder.style.overflow = 'hidden'
 
     placeholder.append(container)
     document.body.append(placeholder)
