@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.chatgpt-prompt-helper-panel-explain-link {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  display: inline-block;
+}

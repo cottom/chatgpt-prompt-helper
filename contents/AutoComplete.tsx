@@ -1,7 +1,5 @@
-import linkIcon from 'data-base64:~assets/link.png'
 import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~/contents/AutoComplete.css'
-import kebabCase from 'lodash/kebabCase'
 import partition from 'lodash/partition'
 import snakeCase from 'lodash/snakeCase'
 import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
@@ -11,7 +9,13 @@ import { useLatest } from 'react-use'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
-import { HISTORY_KEY, PROMOT_KEY, Row, fetchPromotWithRetry } from '../request'
+import {
+  CUSTOM_PROMPT,
+  HISTORY_KEY,
+  PROMOT_KEY,
+  Row,
+  fetchPromotWithRetry
+} from '../request'
 import { sleep } from '../utils'
 
 export type AutoCompleteProps = {}
@@ -82,12 +86,27 @@ const AutoComplete = () => {
   const [activeIndex, setActiveIndex] = useState(-1)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [panelVisible, setPanelVisible] = useState(false)
-  const [promots, _un, { setStoreValue, setRenderValue }] = useStorage<Row[]>(
+  const [autoPromots, _un, { setStoreValue, setRenderValue }] = useStorage<
+    Row[]
+  >(
     {
       key: PROMOT_KEY,
       area: 'local'
     },
     []
+  )
+
+  const [customPromots] = useStorage<Row[]>(
+    {
+      key: CUSTOM_PROMPT,
+      area: 'local'
+    },
+    []
+  )
+
+  const promots = useMemo(
+    () => [...customPromots, ...autoPromots],
+    [customPromots, autoPromots]
   )
 
   const [
@@ -121,19 +140,6 @@ const AutoComplete = () => {
   const lastActiveIndex = useLatest(activeIndex)
 
   const lastActiveItem = lastPromots.current?.[lastActiveIndex?.current || 0]
-
-  const targetUrl = useMemo(() => {
-    const prompt = lastActiveItem?.prompt
-    if (!prompt) {
-      return ''
-    }
-    const startIndex = prompt.indexOf('act as', 0)
-    const endIndex = prompt.indexOf('.', startIndex)
-
-    return `https://prompts.chat/#${kebabCase(
-      lastActiveItem?.prompt?.slice(startIndex, endIndex)?.toLowerCase()
-    )}`
-  }, [lastActiveItem])
 
   const activeItemUI = (index: number) => {
     setHoverIndex(-1)
@@ -296,13 +302,13 @@ const AutoComplete = () => {
         {lastActiveItem?.prompt && (
           <div id="chatgpt-prompt-helper-panel-explain">
             {lastActiveItem?.prompt}
-            <a target="_blank" href={targetUrl}>
+            {/* <a target="_blank" href={targetUrl}>
               <img
                 alt="link"
                 src={linkIcon}
                 className="chatgpt-prompt-helper-panel-explain-link"
               />
-            </a>
+            </a> */}
           </div>
         )}
       </div>

@@ -1,10 +1,11 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import linkIcon from 'data-base64:~assets/link.png'
 import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~style.css'
 import Tooltip from 'rc-tooltip'
 import React, { Fragment, useMemo, useState } from 'react'
-
+import kebabCase from 'lodash/kebabCase'
 import { useStorage } from '@plasmohq/storage/hook'
 
 import { useMutatePrompt } from '../hooks/savePrompt'
@@ -19,6 +20,18 @@ import { CopyIcon } from './CopyIcon'
 import { PromptEditor } from './PromptEditor'
 
 const DEFAULT_PAGE_SIZE = 8
+
+const getACPTargetUrl = (prompt: string) => {
+  if (!prompt) {
+    return ''
+  }
+  const startIndex = prompt.indexOf('act as', 0)
+  const endIndex = prompt.indexOf('.', startIndex)
+
+  return `https://prompts.chat/#${kebabCase(
+    prompt?.slice(startIndex, endIndex)?.toLowerCase()
+  )}`
+}
 
 export const PromptModal: React.FC<{
   visible: boolean
@@ -196,6 +209,16 @@ export const PromptModal: React.FC<{
                             <tr key={prompt.act + index}>
                               <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium">
                                 {prompt.act}
+                                {prompt.type ===
+                                  DisplayRowType.AWESOME_CHATGPT_PROMPTS && (
+                                  <a target="_blank" href={getACPTargetUrl(prompt.prompt)}>
+                                    <img
+                                      alt="link"
+                                      src={linkIcon}
+                                      className="chatgpt-prompt-helper-panel-explain-link"
+                                    />
+                                  </a>
+                                )}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">

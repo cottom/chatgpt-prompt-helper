@@ -2,6 +2,7 @@
   position: absolute;
   right: 10px;
   top: -50px;
+  display: flex;
 }
 
 .chatgpt-prompt-extension-section-handler-container a {
