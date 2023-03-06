@@ -31,8 +31,9 @@ const getTextArea = async () => {
     const textArea = document.querySelector('textarea')
     if (textArea) {
       if (!textArea.placeholder.trim()) {
-        textArea.placeholder =
-          'Try type / at first and seem some helpful prompts. Powered by ChatGPT prompt helper'
+        textArea.placeholder = `${
+          process.env.NODE_ENV === 'development' ? '[DEVELOPMENT]' : ''
+        }Try type / at first and seem some helpful prompts. Powered by ChatGPT prompt helper`
       }
       return textArea.parentElement
     }
@@ -177,7 +178,7 @@ const AutoComplete = () => {
         await setStoreValue(value)
       }
     }
-    initData()
+    // initData()
   }, [])
 
   useEffect(() => {
@@ -250,13 +251,14 @@ const AutoComplete = () => {
       <div
         id="chatgpt-prompt-helper-panel"
         style={{ display: panelVisible && promots.length ? 'block' : 'none' }}>
-        <div id="chatgpt-prompt-helper-content" className='ring-1'>
+        <div id="chatgpt-prompt-helper-content" className="ring-1">
           <div id="chatgpt-prompt-helper-panel-scroll">
             <div id={TOP_ANCHOR} />
             {uiPromots.map((item, index) => (
               <Tooltip
                 key={item.act + index.toString()}
                 placement="right"
+                visible={false}
                 overlay={
                   <div className="chatgpt-prompt-helper-item-tooltip">
                     {' '}

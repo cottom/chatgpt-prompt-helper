@@ -35,3 +35,12 @@
 #chatgpt-prompt-extension-batch-screenshot a {
     margin-right: 10px;
 }
+
+.chatgpt-prompt-extension-save-prompt {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 8px;
+}
+

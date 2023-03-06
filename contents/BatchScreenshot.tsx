@@ -7,15 +7,18 @@ import cssText from 'data-text:~/contents/SectionHandler.css'
 import download from 'downloadjs'
 import { toPng } from 'html-to-image'
 import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
+import { useState } from 'react'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
+import { PromptModal } from '../components/PromptModal'
+import { SettingIcon } from '../icons/SettingIcon'
 import {
   ID_TOKEN,
+  SECTION_ITEM_SELECTOR,
   getScreenshotSelectedId,
   getScreenshotVisibleId,
-  sleep,
-  SECTION_ITEM_SELECTOR
+  sleep
 } from '../utils'
 
 export const getStyle = () => {
@@ -30,8 +33,8 @@ export const config: PlasmoContentScript = {
 
 const getContainer = async () => {
   try {
-    const el =
-      document.querySelector(SECTION_ITEM_SELECTOR)?.parentElement?.parentElement
+    const el = document.querySelector(SECTION_ITEM_SELECTOR)?.parentElement
+      ?.parentElement
     if (el) {
       return el
     }
@@ -47,6 +50,8 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
 }
 
 const BatchScreenshot = () => {
+  const [visible, setVisible] = useState(false)
+
   const [
     selected,
     _unS,
@@ -66,8 +71,6 @@ const BatchScreenshot = () => {
     if (!innerSelected?.length) {
       return
     }
-
-    console.log(innerSelected)
 
     const selectDoms = Array.from(innerSelected)
       .sort((a, b) => {
@@ -122,6 +125,13 @@ const BatchScreenshot = () => {
 
   return (
     <div id="chatgpt-prompt-extension-batch-screenshot">
+      <>
+        <SettingIcon
+          onClick={() => setVisible(true)}
+          className="chatgpt-prompt-extension-save-prompt"
+        />
+        <PromptModal visible={visible} setOpen={setVisible} />
+      </>
       {!enable ? (
         <>
           <a onClick={onPageDownload}>

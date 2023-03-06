@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {
@@ -10,10 +10,13 @@
     "package": "plasmo build && plasmo package"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.12",
+    "@heroicons/react": "^2.0.16",
     "@plasmohq/storage": "^0.14.0",
     "@ungap/structured-clone": "^1.0.1",
     "axios": "^1.2.3",
     "downloadjs": "^1.4.7",
+    "final-form": "^4.20.9",
     "html-to-image": "^1.11.4",
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
@@ -22,16 +25,23 @@
     "rc-virtual-list": "^3.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-final-form-hooks": "^2.0.2",
     "react-tooltip": "^5.7.0",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "turndown": "^7.1.1"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/chrome": "0.0.202",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
     "prettier": "2.7.1",
+    "tailwindcss": "^3.2.7",
     "typescript": "4.9.3"
   },
   "manifest": {

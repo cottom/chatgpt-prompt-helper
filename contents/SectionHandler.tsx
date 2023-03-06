@@ -1,25 +1,24 @@
+import { StarIcon } from '@heroicons/react/24/outline'
 import checkIcon from 'data-base64:~assets/check.png'
 import screenshotIcon from 'data-base64:~assets/screenshot.png'
 import uncheckIcon from 'data-base64:~assets/uncheck.png'
 import cssText from 'data-text:~/contents/SectionHandler.css'
 import download from 'downloadjs'
 import { toPng } from 'html-to-image'
-import type {
-  PlasmoContentScript,
-  PlasmoGetInlineAnchorList,
-} from 'plasmo'
+import type { PlasmoContentScript, PlasmoGetInlineAnchorList } from 'plasmo'
 import type { PlasmoRender } from 'plasmo'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
+import { PromptItemSaver } from '../components/PromptItemSaver'
 import {
   ID_TOKEN,
+  SECTION_ITEM_SELECTOR,
   getScreenshotSelectedId,
   getScreenshotVisibleId,
-  sleep,
-  SECTION_ITEM_SELECTOR,
+  sleep
 } from '../utils'
 
 export const getStyle = () => {
@@ -132,6 +131,7 @@ const SectionHandler: React.FC<{ index: number }> = ({ index }) => {
 
   return (
     <div className="chatgpt-prompt-extension-section-handler-container">
+      <PromptItemSaver idx={index} />
       {enable && (
         <a onClick={toggle} rel="screenshot">
           <img

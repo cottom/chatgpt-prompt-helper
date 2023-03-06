@@ -20,6 +20,16 @@ export type Row = {
   prompt: string
 }
 
+export type DisplayRow = Row & {
+  type: DisplayRowType
+  description?: string
+}
+
+export enum DisplayRowType {
+  AWESOME_CHATGPT_PROMPTS = 'AWESOME_CHATGPT_PROMPTS',
+  CUSTOM = 'CUSTOM',
+}
+
 const DATA_SET_URL =
   'https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv'
 
@@ -52,7 +62,8 @@ export const fetchPromots = async () => {
     .map(([act, prompt], index) => ({
       act: act?.replaceAll('"', ''),
       prompt: prompt?.replace('"', '')
-    })).reverse()
+    }))
+    .reverse()
 }
 
 export const retrify =
@@ -69,6 +80,8 @@ export const retrify =
   }
 
 export const PROMOT_KEY = 'PROMOT_KEY'
+
+export const CUSTOM_PROMPT = 'CUSTOM_KEY'
 
 export const HISTORY_KEY = 'HISTORY_KEY'
 
