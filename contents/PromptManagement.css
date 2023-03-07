@@ -1,0 +1,12 @@
+.chatgpt-prompt-extension-prompt-manager {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: absolute;
+  right: -35px;
+  bottom: 10px;
+}
+
+.chatgpt-prompt-helper-container {
+  position: relative;
+}

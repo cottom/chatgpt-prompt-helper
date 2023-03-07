@@ -11,8 +11,7 @@ import { useState } from 'react'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
-import { PromptModal } from '../components/PromptModal'
-import { SettingIcon } from '../icons/SettingIcon'
+
 import {
   ID_TOKEN,
   SECTION_ITEM_SELECTOR,
@@ -50,7 +49,6 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
 }
 
 const BatchScreenshot = () => {
-  const [visible, setVisible] = useState(false)
 
   const [
     selected,
@@ -125,13 +123,6 @@ const BatchScreenshot = () => {
 
   return (
     <div id="chatgpt-prompt-extension-batch-screenshot">
-      <>
-        <SettingIcon
-          onClick={() => setVisible(true)}
-          className="chatgpt-prompt-extension-save-prompt"
-        />
-        <PromptModal visible={visible} setOpen={setVisible} />
-      </>
       {!enable ? (
         <>
           <a onClick={onPageDownload}>

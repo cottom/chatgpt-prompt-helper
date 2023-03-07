@@ -86,6 +86,7 @@ const AutoComplete = () => {
   const [activeIndex, setActiveIndex] = useState(-1)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [panelVisible, setPanelVisible] = useState(false)
+
   const [autoPromots, _un, { setStoreValue, setRenderValue }] = useStorage<
     Row[]
   >(
@@ -184,7 +185,7 @@ const AutoComplete = () => {
         await setStoreValue(value)
       }
     }
-    // initData()
+    initData()
   }, [])
 
   useEffect(() => {
@@ -206,6 +207,7 @@ const AutoComplete = () => {
     })
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
+      e.cancelBubble = true
       e.preventDefault()
       e.stopPropagation()
       e.stopImmediatePropagation()
@@ -242,8 +244,10 @@ const AutoComplete = () => {
       }
     }
 
-    textarea?.addEventListener('keydown', (e) => handleKeyboardEvennt(e))
-    document.addEventListener('keydown', (e) => handleKeyboardEvennt(e))
+    textarea?.addEventListener('keydown', (e) => handleKeyboardEvennt(e), {
+      capture: true
+    })
+    // document.addEventListener('keydown', (e) => handleKeyboardEvennt(e))
   }, [
     setInputText,
     setPanelVisible,
