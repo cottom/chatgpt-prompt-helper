@@ -35,17 +35,17 @@ const getSections = async () => {
   const list = document.querySelectorAll(SECTION_ITEM_SELECTOR)
   if (list?.length) {
     return Array.from(list).map((item, index) => {
-      if (item.firstChild) {
-        ;(item.firstChild as HTMLDivElement).setAttribute(
+      if (item) {
+        ;(item as HTMLDivElement).setAttribute(
           ID_TOKEN,
           index.toString()
         )
-        ;(item.firstChild as HTMLDivElement).classList.add(
+        ;(item as HTMLDivElement).classList.add(
           ID_TOKEN,
           `${ID_TOKEN}_${index}`
         )
       }
-      return item.firstChild
+      return item
     })
   }
   await sleep(1000)

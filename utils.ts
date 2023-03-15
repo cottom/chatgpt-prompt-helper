@@ -10,7 +10,7 @@ export const getScreenshotSelectedId = () => `${getScreenshotId()}_selected`
 
 export const ID_TOKEN = 'CHAT_GPT_TOKEN_INDEX'
 
-export const SECTION_ITEM_SELECTOR = 'main .w-full.border-b'
+export const SECTION_ITEM_SELECTOR = 'main .text-base.m-auto'
 
 export const NAV_CONTAINER_SELECTOR = '.scrollbar-trigger nav.flex'
 

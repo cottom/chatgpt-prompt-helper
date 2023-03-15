@@ -45,3 +45,9 @@
   margin-right: 8px;
 }
 
+.chatgpt-prompt-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+

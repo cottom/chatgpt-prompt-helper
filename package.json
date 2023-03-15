@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {
@@ -28,7 +28,8 @@
     "react-final-form-hooks": "^2.0.2",
     "react-tooltip": "^5.7.0",
     "react-use": "^17.4.0",
-    "turndown": "^7.1.1"
+    "turndown": "^7.1.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.0",

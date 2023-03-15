@@ -27,6 +27,7 @@ const EditorForm: React.FC<{
     <form
       className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 m-auto"
       onSubmit={handleSubmit}>
+      <h2>Add Custom Prompt</h2>
       <div className="mb-6">
         <label
           htmlFor="act"
