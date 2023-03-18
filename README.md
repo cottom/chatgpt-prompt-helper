@@ -1,6 +1,5 @@
 # ChatGPT Prompt helper
-
-![Icon](./assets/icon.png)
+<img src="./assets/icon.png" width="60px" style="margin: auto; display: block" />
 
 This Browser extension is going to prower chatGPT with awesome chatgpt prompt helper. Data powered by [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts).
 
