@@ -3,9 +3,10 @@ import { InformationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import linkIcon from 'data-base64:~assets/link.png'
 import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~style.css'
+import kebabCase from 'lodash/kebabCase'
 import Tooltip from 'rc-tooltip'
 import React, { Fragment, useMemo, useState } from 'react'
-import kebabCase from 'lodash/kebabCase'
+
 import { useStorage } from '@plasmohq/storage/hook'
 
 import { useMutatePrompt } from '../hooks/savePrompt'
@@ -143,7 +144,10 @@ export const PromptModal: React.FC<{
           <div
             style={{ position: 'absolute', transform: 'translateX(-50%)' }}
             className="h-3/4 left-1/2 w-3/4 transform overflow-y-auto overscroll-y-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all opacity-100 scale-100">
-            <XMarkIcon className='' onClick={() => setOpen(false)}/>
+            <XMarkIcon
+              className="chatgpt-prompt-helper-close-icon"
+              onClick={() => setOpen(false)}
+            />
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
@@ -212,7 +216,9 @@ export const PromptModal: React.FC<{
                                 {prompt.act}
                                 {prompt.type ===
                                   DisplayRowType.AWESOME_CHATGPT_PROMPTS && (
-                                  <a target="_blank" href={getACPTargetUrl(prompt.prompt)}>
+                                  <a
+                                    target="_blank"
+                                    href={getACPTargetUrl(prompt.prompt)}>
                                     <img
                                       alt="link"
                                       src={linkIcon}
