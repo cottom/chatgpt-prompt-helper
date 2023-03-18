@@ -116,12 +116,10 @@ export const PromptEditor: React.FC<{
         as="div"
         className="fixed inset-0 z-40 overflow-y-auto p-4 sm:p-6 md:p-20"
         onClose={setOpen}>
-        <Transition.Child as={Fragment}>
-          <style type="text/css">
-            {cssText}
-            {reactToolCssText}
-          </style>
-        </Transition.Child>
+        <style type="text/css">
+          {cssText}
+          {reactToolCssText}
+        </style>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

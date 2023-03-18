@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { InformationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import linkIcon from 'data-base64:~assets/link.png'
 import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~style.css'
@@ -115,12 +115,12 @@ export const PromptModal: React.FC<{
         as="div"
         className="fixed inset-0 z-20 overflow-y-auto p-4 sm:p-6 md:p-20"
         onClose={setOpen}>
-        <Transition.Child as={Fragment}>
+        <div>
           <style type="text/css">
             {cssText}
             {reactToolCssText}
           </style>
-        </Transition.Child>
+        </div>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -143,6 +143,7 @@ export const PromptModal: React.FC<{
           <div
             style={{ position: 'absolute', transform: 'translateX(-50%)' }}
             className="h-3/4 left-1/2 w-3/4 transform overflow-y-auto overscroll-y-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all opacity-100 scale-100">
+            <XMarkIcon className='' onClick={() => setOpen(false)}/>
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">

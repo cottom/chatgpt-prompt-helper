@@ -34,16 +34,13 @@ export const config: PlasmoContentScript = {
 const getSections = async () => {
   const list = document.querySelectorAll(SECTION_ITEM_SELECTOR)
   if (list?.length) {
-    return Array.from(list).map((item, index) => {
+    return Array.from(list).map((item: HTMLDivElement, index) => {
       if (item) {
-        ;(item as HTMLDivElement).setAttribute(
-          ID_TOKEN,
-          index.toString()
-        )
-        ;(item as HTMLDivElement).classList.add(
-          ID_TOKEN,
-          `${ID_TOKEN}_${index}`
-        )
+        if (item.hasAttribute(ID_TOKEN)) {
+          item.classList.remove(`${ID_TOKEN}_${item.getAttribute(ID_TOKEN)}`)
+        }
+        item.setAttribute(ID_TOKEN, index.toString())
+        item.classList.add(ID_TOKEN, `${ID_TOKEN}_${index}`)
       }
       return item
     })
