@@ -16,7 +16,7 @@ export const useMutatePrompt = () => {
   ] = useStorage<DisplayRow[]>(
     {
       key: CUSTOM_PROMPT,
-      area: 'local'
+      area: 'sync'
     },
     []
   )

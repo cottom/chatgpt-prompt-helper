@@ -100,7 +100,7 @@ const AutoComplete = () => {
   const [customPromots] = useStorage<Row[]>(
     {
       key: CUSTOM_PROMPT,
-      area: 'local'
+      area: 'sync'
     },
     []
   )

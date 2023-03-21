@@ -49,7 +49,7 @@ export const PromptModal: React.FC<{
   ] = useStorage<DisplayRow[]>(
     {
       key: CUSTOM_PROMPT,
-      area: 'local'
+      area: 'sync'
     },
     []
   )
