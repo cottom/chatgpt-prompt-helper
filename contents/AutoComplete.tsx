@@ -37,7 +37,7 @@ const getTextArea = async () => {
       if (!textArea.placeholder.trim()) {
         textArea.placeholder = `${
           process.env.NODE_ENV === 'development' ? '' : ''
-        }Try type / at first and seem some helpful prompts. Powered by ChatGPT prompt helper`
+        }Try type / and see some helpful prompts. Powered by ChatGPT prompt helper`
       }
       return textArea.parentElement
     }
