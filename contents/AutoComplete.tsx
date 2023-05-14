@@ -6,6 +6,7 @@ import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
 import Tooltip from 'rc-tooltip'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLatest } from 'react-use'
+import debounce from 'lodash/debounce'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
@@ -47,7 +48,7 @@ const getTextArea = async () => {
   } catch (error) {
     // console.error(error)
   }
-  await sleep(1000)
+  await sleep(2000)
   return await getTextArea()
 }
 
@@ -196,18 +197,19 @@ const AutoComplete = () => {
       'textarea'
     ) as unknown as HTMLInputElement
 
-    textarea?.addEventListener('input', (e) => {
+
+    textarea?.addEventListener('input', debounce((e) => {
       // @ts-ignore
       const value = e.target.value
-      setInputText(value)
       if (value?.startsWith('/')) {
+        setInputText(value)
         setActiveIndex(0)
         containerRef.current?.querySelector(`#${TOP_ANCHOR}`)?.scrollIntoView()
         setPanelVisible(true)
       } else {
         setPanelVisible(false)
       }
-    })
+    }, 200))
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
       e.cancelBubble = true
