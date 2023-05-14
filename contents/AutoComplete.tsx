@@ -34,6 +34,9 @@ const getTextArea = async () => {
   try {
     const textArea = document.querySelector('textarea')
     if (textArea) {
+      if (textArea.parentElement.nodeName !== 'DIV') {
+        throw Error('')
+      }
       if (!textArea.placeholder.trim()) {
         textArea.placeholder = `${
           process.env.NODE_ENV === 'development' ? '' : ''
