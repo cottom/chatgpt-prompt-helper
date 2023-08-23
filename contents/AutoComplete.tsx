@@ -43,7 +43,7 @@ const getTextArea = async () => {
           process.env.NODE_ENV === 'development' ? '' : ''
         }Try type / and see some helpful prompts. Powered by ChatGPT prompt helper`
       }
-      return textArea.parentElement
+      return textArea
     }
   } catch (error) {
     // console.error(error)
