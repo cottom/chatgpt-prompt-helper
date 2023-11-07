@@ -13,14 +13,13 @@
 
 #chatgpt-prompt-helper-panel {
   position: absolute;
-  bottom: 0;
+  bottom: 2px;
   background: #ffffff;
   border-radius: 8px;
   border: solid 1px #dddddd;
   box-shadow: 1px 1px #ddd;
   max-height: 300px;
   width: 600px;
-  bottom: 51px;
   left: 2px;
 }
 

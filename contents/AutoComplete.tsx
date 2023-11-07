@@ -1,12 +1,13 @@
 import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~/contents/AutoComplete.css'
+import debounce from 'lodash/debounce'
 import partition from 'lodash/partition'
 import snakeCase from 'lodash/snakeCase'
 import type { PlasmoContentScript, PlasmoGetInlineAnchor } from 'plasmo'
 import Tooltip from 'rc-tooltip'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLatest } from 'react-use'
-import debounce from 'lodash/debounce'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
@@ -25,11 +26,13 @@ export const config: PlasmoContentScript = {
   matches: ['https://chat.openai.com/*']
 }
 
-export const getStyle = () => {
+const getStyle = () => {
   const style = document.createElement('style')
   style.textContent = cssText + '\n' + reactToolCssText
   return style
 }
+
+document.head.appendChild(getStyle())
 
 const getTextArea = async () => {
   try {
@@ -38,12 +41,12 @@ const getTextArea = async () => {
       if (textArea.parentElement.nodeName !== 'DIV') {
         throw Error('')
       }
-      if (!textArea.placeholder.trim()) {
+      if (!textArea.placeholder?.trim()) {
         textArea.placeholder = `${
           process.env.NODE_ENV === 'development' ? '' : ''
         }Try type / and see some helpful prompts. Powered by ChatGPT prompt helper`
       }
-      return textArea
+      return textArea.parentElement
     }
   } catch (error) {
     // console.error(error)
@@ -84,12 +87,38 @@ const safeMath = (act: string, inputText: string) => {
   }
 }
 
+const getContainerPosition = async () => {
+  const targetElement = await getTextArea()
+  const rect = targetElement.getBoundingClientRect()
+
+  // Calculate positions relative to the document
+  // Calculate positions
+  const left = rect.left + window.scrollX
+  const top = rect.top + +window.scrollY
+
+  return { left, top }
+}
+
 const AutoComplete = () => {
   const containerRef = useRef<HTMLDivElement>()
   const [inputText, setInputText] = useState<string>()
   const [activeIndex, setActiveIndex] = useState(-1)
   const [hoverIndex, setHoverIndex] = useState(-1)
   const [panelVisible, setPanelVisible] = useState(false)
+  const [position, setPosition] = useState<{ top: number; left: number }>()
+
+  useEffect(() => {
+    const run = async () => {
+      console.log(await getContainerPosition())
+      setPosition(await getContainerPosition())
+    }
+    run()
+    window.addEventListener('resize', run)
+
+    return () => {
+      window.removeEventListener('resize', run)
+    }
+  }, [])
 
   const [autoPromots, _un, { setStoreValue, setRenderValue }] = useStorage<
     Row[]
@@ -197,19 +226,23 @@ const AutoComplete = () => {
       'textarea'
     ) as unknown as HTMLInputElement
 
-
-    textarea?.addEventListener('input', debounce((e) => {
-      // @ts-ignore
-      const value = e.target.value
-      if (value?.startsWith('/')) {
-        setInputText(value)
-        setActiveIndex(0)
-        containerRef.current?.querySelector(`#${TOP_ANCHOR}`)?.scrollIntoView()
-        setPanelVisible(true)
-      } else {
-        setPanelVisible(false)
-      }
-    }, 200))
+    textarea?.addEventListener(
+      'input',
+      debounce((e) => {
+        // @ts-ignore
+        const value = e.target.value
+        if (value?.startsWith('/')) {
+          setInputText(value)
+          setActiveIndex(0)
+          containerRef.current
+            ?.querySelector(`#${TOP_ANCHOR}`)
+            ?.scrollIntoView()
+          setPanelVisible(true)
+        } else {
+          setPanelVisible(false)
+        }
+      }, 200)
+    )
 
     const preventKeyboardEvent = (e: KeyboardEvent) => {
       e.cancelBubble = true
@@ -325,9 +358,21 @@ const AutoComplete = () => {
   )
 
   return (
-    <div ref={containerRef} id="chatgpt-prompt-helper-container">
-      {childrenEl}
-    </div>
+    <>
+      {createPortal(
+        <div
+          ref={containerRef}
+          id="chatgpt-prompt-helper-container"
+          style={{
+            position: 'fixed',
+            top: `${position?.top}px`,
+            left: `${position?.left}px`
+          }}>
+          {childrenEl}
+        </div>,
+        document.body
+      )}
+    </>
   )
 }
 
