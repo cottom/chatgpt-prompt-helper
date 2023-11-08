@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {

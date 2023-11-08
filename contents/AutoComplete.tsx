@@ -120,9 +120,9 @@ const AutoComplete = () => {
     }
   }, [])
 
-  const [autoPromots, _un, { setStoreValue, setRenderValue }] = useStorage<
-    Row[]
-  >(
+  const [autoPromots, setAutoPromots] = useState<Row[]>([])
+
+  const [, _un, { setStoreValue, setRenderValue }] = useStorage<Row[]>(
     {
       key: PROMOT_KEY,
       area: 'local'
@@ -214,8 +214,9 @@ const AutoComplete = () => {
     const initData = async () => {
       const value = await fetchPromotWithRetry()
       if (value) {
-        setRenderValue(value)
-        await setStoreValue(value)
+        setAutoPromots(value)
+        // setRenderValue(value)
+        await setStoreValue([])
       }
     }
     initData()

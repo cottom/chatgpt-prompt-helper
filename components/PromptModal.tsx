@@ -5,7 +5,7 @@ import reactToolCssText from 'data-text:rc-tooltip/assets/bootstrap_white.css'
 import cssText from 'data-text:~style.css'
 import kebabCase from 'lodash/kebabCase'
 import Tooltip from 'rc-tooltip'
-import React, { Fragment, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
@@ -15,7 +15,8 @@ import {
   DisplayRow,
   DisplayRowType,
   PROMOT_KEY,
-  Row
+  Row,
+  fetchPromotWithRetry
 } from '../request'
 import { CopyIcon } from './CopyIcon'
 import { PromptEditor } from './PromptEditor'
@@ -54,20 +55,17 @@ export const PromptModal: React.FC<{
     []
   )
 
-  const [
-    remotePrompts,
-    _un,
-    {
-      setStoreValue: setRemotePromptsStoreValue,
-      setRenderValue: setRemotePromptsRenderValue
+  const [remotePrompts, setRemotePrompts] = useState<Row[]>([])
+
+  useEffect(() => {
+    const initData = async () => {
+      const value = await fetchPromotWithRetry()
+      if (value) {
+        setRemotePrompts(value)
+      }
     }
-  ] = useStorage<Row[]>(
-    {
-      key: PROMOT_KEY,
-      area: 'local'
-    },
-    []
-  )
+    initData()
+  }, [])
 
   const prompts = useMemo(() => {
     return [
