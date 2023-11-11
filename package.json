@@ -14,7 +14,7 @@
     "@heroicons/react": "^2.0.16",
     "@plasmohq/storage": "^0.14.0",
     "@ungap/structured-clone": "^1.0.1",
-    "axios": "^1.2.3",
+    "axios": "^1.6.0",
     "downloadjs": "^1.4.7",
     "final-form": "^4.20.9",
     "html-to-image": "^1.11.4",
