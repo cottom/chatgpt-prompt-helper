@@ -11,7 +11,7 @@ import { sleep } from '../utils'
 export type AutoCompleteProps = {}
 
 export const config: PlasmoContentScript = {
-  matches: ['https://chat.openai.com/*']
+  matches: ['https://chat.openai.com/*', "https://chatgpt.com/*"]
 }
 
 export const getStyle = () => {

@@ -4,7 +4,8 @@
   cursor: pointer;
   position: absolute;
   right: -35px;
-  bottom: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .chatgpt-prompt-helper-container {

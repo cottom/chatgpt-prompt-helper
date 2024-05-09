@@ -27,7 +27,7 @@ export const getStyle = () => {
 }
 
 export const config: PlasmoContentScript = {
-  matches: ['https://chat.openai.com/*']
+  matches: ['https://chat.openai.com/*', "https://chatgpt.com/*"]
 }
 
 const getContainer = async () => {

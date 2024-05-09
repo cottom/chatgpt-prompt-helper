@@ -10,6 +10,11 @@ import debounce from 'lodash/debounce'
 
 import { useStorage } from '@plasmohq/storage/hook'
 
+ 
+// export const getInlineAnchor: PlasmoGetInlineAnchor = async () => ({
+//       element: document.querySelector("#pricing"),
+//       insertPosition: "afterend"
+// })
 import {
   CUSTOM_PROMPT,
   HISTORY_KEY,
@@ -22,7 +27,7 @@ import { sleep } from '../utils'
 export type AutoCompleteProps = {}
 
 export const config: PlasmoContentScript = {
-  matches: ['https://chat.openai.com/*']
+  matches: ['https://chat.openai.com/*', "https://chatgpt.com/*"]
 }
 
 export const getStyle = () => {
@@ -33,7 +38,7 @@ export const getStyle = () => {
 
 const getTextArea = async () => {
   try {
-    const textArea = document.querySelector('textarea')
+    const textArea = document.querySelector('#prompt-textarea ')
     if (textArea) {
       if (textArea.parentElement.nodeName !== 'DIV') {
         throw Error('')
@@ -54,7 +59,11 @@ const getTextArea = async () => {
 
 export const getInlineAnchor: PlasmoGetInlineAnchor = async () => {
   const area = await getTextArea()
-  return area
+
+  return {
+    element: area.parentElement,
+    insertPosition: "beforebegin",
+  }
 }
 
 const ITEM_PREFIX = `chatgpt-prompt-helper-item-_`

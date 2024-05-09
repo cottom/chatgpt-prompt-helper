@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-prompt-helper",
   "displayName": "Chatgpt Prompt Helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chatgpt prompt, help you ask more efficiently",
   "author": "cottome",
   "scripts": {
@@ -20,7 +20,7 @@
     "html-to-image": "^1.11.4",
     "lodash": "^4.17.21",
     "lunr": "^2.3.9",
-    "plasmo": "0.62.2",
+    "plasmo": "0.86.2",
     "rc-tooltip": "^5.3.1",
     "rc-virtual-list": "^3.4.13",
     "react": "^18.2.0",
@@ -49,7 +49,8 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://chat.openai.com/*"
+      "https://chat.openai.com/*",
+      "https://chatgpt.com/*"
     ],
     "permissions": [
       "storage"
